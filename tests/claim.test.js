@@ -11,7 +11,7 @@ import { claim } from '../lib/claim.js'
 import { getAbi } from './helper.js'
 
 const CALLER_ACCOUNT = '0xb25205ca60f964d45b30e969dc3f10a5de4ec3bc'
-
+/*
 const mockNode = Mockthereum.getLocal({ accounts: [CALLER_ACCOUNT]})
 
 beforeEach(async () => {
@@ -22,6 +22,7 @@ beforeEach(async () => {
 afterEach(() => {
   mockNode.stop()
 })
+*/
 
 test('fail if no provider set', async ({ rejects }) => {
   return rejects(claim('', ''), 'Must provide an EIP-1193, EIP-1102, EIP-3085 and EIP-3326 compliant provider')
@@ -30,8 +31,10 @@ test('fail if no provider set', async ({ rejects }) => {
 test('register a subdomain', async (t) => {
   const registrar = await getAbi('Registrar')
 
+  /*
   const mockedFunction = await mockNode.forSendTransactionTo('0x9f2daf90c4323b529c31a40520a5fa63eb601b84')
     .thenSucceed()
+  */
 
   /*
   const mockedFunction = await mockNode.forCall('0x9f2daf90c4323b529c31a40520a5fa63eb601b84')
@@ -39,7 +42,6 @@ test('register a subdomain', async (t) => {
     .thenCloseConnection()
     */
 
-  /*
   let registerMock = mock({
     window: globalThis,
     blockchain: 'ethereum',
