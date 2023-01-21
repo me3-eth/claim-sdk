@@ -8,12 +8,14 @@
   "scripts": {
     "build": "NODE_ENV=production node scripts/build.cjs",
     "build:dev": "NODE_ENV=development node scripts/build.cjs",
+    "lint": "standard | snazzy",
+    "lint:fix": "standard --fix",
     "test": "c8 --100 tap --no-coverage tests/*.test.js"
   },
   "author": "charchar",
-  "license": "GPL-3",
+  "license": "MIT",
   "devDependencies": {
-    "@depay/web3-mock-evm": "^13.22.17",
+    "@depay/web3-mock": "^11.10.1",
     "c8": "^7.12.0",
     "esbuild": "^0.16.14",
     "ethers": "^5",

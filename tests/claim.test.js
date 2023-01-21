@@ -3,8 +3,8 @@ import fetch from 'node-fetch'
 if (!globalThis.fetch) globalThis.fetch = fetch
 
 import { afterEach, beforeEach, test } from 'tap'
-// import { confirm, increaseBlock, mock, resetMocks } from '@depay/web3-mock-evm'
-import * as Mockthereum from 'mockthereum'
+import { anything, confirm, increaseBlock, mock, resetMocks } from '@depay/web3-mock'
+// import * as Mockthereum from 'mockthereum'
 import { ethers } from 'ethers'
 
 import { claim } from '../lib/claim.js'
@@ -29,7 +29,7 @@ test('fail if no provider set', async ({ rejects }) => {
 })
 
 test('register a subdomain', async (t) => {
-  const registrar = await getAbi('Registrar')
+  const registrarAbi = await getAbi('Registrar')
 
   /*
   const mockedFunction = await mockNode.forSendTransactionTo('0x9f2daf90c4323b529c31a40520a5fa63eb601b84')
@@ -41,7 +41,25 @@ test('register a subdomain', async (t) => {
     .forFunction('function register(bytes32 node, string label, address owner, bytes[] blob)')
     .thenCloseConnection()
     */
+  let registerMock = mock({
+    blockchain: 'ethereum',
+    transaction: {
+      to: '0x9f2daf90c4323b529c31a40520a5fa63eb601b84',
+      api: registrarAbi.abi,
+      method: 'register',
+      params: ['0x868437061435f35898f8ed7fb95d62ca53b460f0bb9d1c6be3bfd796e38d8636', anything, '0xb25205ca60f964d45b30e969dc3f10a5de4ec3bc', []]
+    },
+    call: {
+      to: '0x9f2daf90c4323b529c31a40520a5fa63eb601b84',
+      api: registrarAbi.abi,
+      method: 'valid',
+      params: ['0x868437061435f35898f8ed7fb95d62ca53b460f0bb9d1c6be3bfd796e38d8636', anything],
+      return: true
+    },
+    accounts: { return: ['0xb25205ca60f964d45b30e969dc3f10a5de4ec3bc'] }
+  })
 
+  /*
   let registerMock = mock({
     window: globalThis,
     blockchain: 'ethereum',
@@ -68,12 +86,12 @@ test('register a subdomain', async (t) => {
   confirm(registerMock)
   */
 
-  const provider = new ethers.providers.JsonRpcProvider(mockNode.url)
-  console.log({ provider })
+  const provider = new ethers.providers.Web3Provider(globalThis.ethereum)
+  console.log({ eth: globalThis.ethereum })
 
   const tx = await claim('me3.eth', 'charchar', { ownerAddress: '0xb25205ca60f964d45b30e969dc3f10a5de4ec3bc', provider })
   console.log({ tx })
-  const result = await tx.wait(1)
+  const result = await tx.wait()
   console.log({ result })
   /*
   increaseBlock(5)
@@ -83,7 +101,7 @@ test('register a subdomain', async (t) => {
 
   t.ok(receipt.transactionHash)
   */
-  //t.ok(registerMock.calls.count() > 1)
-  const fnCalls = await mockedFunction.getRequests()
-  t.ok(fnCalls.length === 1)
+  t.ok(registerMock.calls.count() > 1)
+  // const fnCalls = await mockedFunction.getRequests()
+  // t.ok(fnCalls.length === 1)
 })
