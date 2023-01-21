@@ -41,7 +41,7 @@ test('register a subdomain', async (t) => {
     .forFunction('function register(bytes32 node, string label, address owner, bytes[] blob)')
     .thenCloseConnection()
     */
-  let registerMock = mock({
+  const registerMock = mock({
     blockchain: 'ethereum',
     transaction: {
       to: '0x9f2daf90c4323b529c31a40520a5fa63eb601b84',
