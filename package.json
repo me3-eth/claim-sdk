@@ -2,8 +2,7 @@
   "name": "@me3/claim-sdk",
   "version": "0.0.0",
   "description": "",
-  "main": "dist/bundle.cjs.js",
-  "module": "dist/bundle.esm.js",
+  "main": "index.js",
   "type": "module",
   "scripts": {
     "build": "NODE_ENV=production node scripts/build.cjs",
@@ -18,14 +17,13 @@
     "@depay/web3-mock": "^11.10.1",
     "c8": "^7.12.0",
     "esbuild": "^0.16.14",
-    "ethers": "^5",
     "nock": "^13.2.9",
     "node-fetch": "^3.3.0",
     "snazzy": "^9.0.0",
     "standard": "^17.0.0",
     "tap": "^16.3.2"
   },
-  "peerDependencies": {
-    "ethers": "^5"
+  "dependencies": {
+    "ethers": "^5.7.2"
   }
 }
