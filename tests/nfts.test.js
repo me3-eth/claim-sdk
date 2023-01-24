@@ -50,7 +50,7 @@ test('fails to get any nfts', async (t) => {
   }
   const tokenAddress = '0xdeadbeef'
 
-  const alchemyApi = nock('https://eth-me3test.alchemyapi.io')
+  nock('https://eth-me3test.alchemyapi.io')
     .get('/v2/abc/getNFTs')
     .query({ owner: '0x0' })
     .reply(500, { status: 'failed' })
@@ -64,7 +64,7 @@ test('fail if metadata cannot be loaded', async (t) => {
   }
   const tokenAddress = '0xdeadbeef'
 
-  const alchemyApi = nock('https://eth-mainnet.alchemyapi.io')
+  nock('https://eth-mainnet.alchemyapi.io')
     .get('/v2/abc/getNFTs')
     .query({ owner: '0x0' })
     .reply(200, {
@@ -98,6 +98,7 @@ test('fail when request limit reached', async (t) => {
       .reply(429, { status: 'failed' })
 
     await t.rejects(nfts(tokenAddress, '0x0', opts), /Too Many Requests/)
+    alchemyApi.done()
   }
 
   {
@@ -116,5 +117,6 @@ test('fail when request limit reached', async (t) => {
       .query({ contractAddress: tokenAddress, tokenId: '123' })
       .reply(429, { status: 'failed' })
     await t.rejects(nfts(tokenAddress, '0x0', opts), /Too Many Requests/)
+    alchemyApi.done()
   }
 })
