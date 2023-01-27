@@ -11,7 +11,11 @@
     "lint:fix": "standard --fix",
     "test": "c8 --100 tap --no-coverage tests/*.test.js"
   },
-  "author": "charchar",
+  "files": [
+    "lib/*",
+    "LICENSE"
+  ],
+  "author": "charchar.eth",
   "license": "MIT",
   "devDependencies": {
     "@depay/web3-mock": "^11.10.1",
